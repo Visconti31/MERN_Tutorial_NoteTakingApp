@@ -6,5 +6,7 @@ const PORT = process.env.PORT || 3500 // PORT that the server will run deploy|lo
 
 app.use('/', express.static(path.join(__dirname, '/public')))
 
+app.use('/', require('./routes/root'))
+
 // APP start listen
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

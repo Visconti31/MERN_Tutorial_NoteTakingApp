@@ -4,6 +4,9 @@ const path = require('path')
 const app = express() // Defining the app
 const PORT = process.env.PORT || 3500 // PORT that the server will run deploy|local
 
+// Ability to process json Middleware
+app.use(express.json())
+
 app.use('/', express.static(path.join(__dirname, '/public')))
 
 app.use('/', require('./routes/root'))

@@ -1,8 +1,10 @@
 const express = require('express')
 const path = require('path')
-
+const { logger } = require('./middleware/logger')
 const app = express() // Defining the app
 const PORT = process.env.PORT || 3500 // PORT that the server will run deploy|local
+
+app.use(logger)
 
 // Ability to process json Middleware
 app.use(express.json())

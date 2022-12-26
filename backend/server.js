@@ -1,12 +1,23 @@
 const express = require('express')
 const path = require('path')
 const { logger } = require('./middleware/logger')
+const errorHandler = require('./middleware/errorHandler')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 const app = express() // Defining the app
 const PORT = process.env.PORT || 3500 // PORT that the server will run deploy|local
 
+// Custom middleware to create logs
 app.use(logger)
 
-// Ability to process json Middleware
+// Allow Google to access our API (public API)
+app.use(cors(corsOptions))
+
+// Third party middleware to parse cookie
+app.use(cookieParser())
+
+// Build in middleware for Ability to process json
 app.use(express.json())
 
 app.use('/', express.static(path.join(__dirname, '/public')))
@@ -23,6 +34,8 @@ app.all('*', (req, res) => {
     res.type('txt').send('404 Not Found')
   }
 })
+
+app.use(errorHandler)
 
 // APP start listen
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
